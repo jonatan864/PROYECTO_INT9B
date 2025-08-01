@@ -11,7 +11,7 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
   <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/styleinicio.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
@@ -24,9 +24,27 @@
         <div class="row">
           <div class="banner-info">
             <div class="banner-logo text-center">
-<img src="img/logo farmacia chapatin.png" class="img-responsive" style="width: 700px; height: auto;" alt="Logo Farmacia Chapatin">
+<img src="img/logo farmacia chapatin.png" class="img-responsive" style="width: 200px; height: auto;" alt="Logo Farmacia Chapatin">
             </div>
-            
+              <div class="container">
+    <div class="login-container">
+      
+      <form>
+  <input type="email" class="form-control" name="email" placeholder="Correo electrónico" required><br>
+
+  <div class="password-wrapper">
+    <input type="password" class="form-control password-input" id="password" name="password" placeholder="Contraseña" required>
+<span class="toggle-password" id="toggleIcon" onclick="togglePasswordVisibility()">👁</span>
+</div>  <br>
+
+
+<button type="submit" class="btn btn-primary btn-block" onclick="window.location.href='InicioAdmin.html'">Ingresar</button>
+</form>
+
+      <p class="text-center mt-3">
+      </p>
+    </div>
+  </div>
           </div>
         </div>
       </div>
@@ -34,7 +52,6 @@
   </section>
   <!--/ banner-->
   <script src="js/jquery.min.js"></script>
-      <script src="js/inicio.js"></script>
     <script src="js/login.js"></script>
   <script src="js/jquery.easing.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
