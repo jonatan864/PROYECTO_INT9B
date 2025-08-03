@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transferencias Internas</title>
+  <link rel="stylesheet" href="css/trasferenciasEnpliado.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="img/logo farmacia chapatin.png" alt="Logo" class="logo">
+      <h1>Transferencias Internas</h1>
+     <li class=""><a href="InicioEnpeado.html">⤴</a></li>
+    </header>
+
+    <form class="formulario">
+      <label for="origen">Sucursal de origen</label>
+      <select id="origen">
+        <option>Sucursal elegida</option>
+      </select>
+
+      <label for="destino">Sucursal de destino</label>
+      <select id="destino">
+        <option>Destino</option>
+      </select>
+
+      <details class="producto-dropdown">
+        <summary>✔ Producto</summary>
+        <div class="producto-item">
+          <label><input type="checkbox" checked> label</label>
+          <button class="copiar-btn">📋</button>
+        </div>
+        <div class="producto-item">
+          <label><input type="checkbox" checked> label</label>
+          <button class="copiar-btn">📋</button>
+        </div>
+      </details>
+
+    <div class="cantidad-container">
+  <label for="cantidad">Cantidad</label>
+  <div class="cantidad-controles">
+    <button type="button" id="decrementar">−</button>
+    <input type="number" id="cantidad" value="1" min="1">
+    <button type="button" id="incrementar">+</button>
+  </div>
+</div>
+
+
+      <div class="producto-resumen">
+        <p><strong>Title</strong></p>
+        <p>Description</p>
+        <span class="hora">9:41 AM</span>
+      </div>
+
+      <button type="submit" class="confirmar-btn">Confirmar transferencia</button>
+    </form>
+  </div>
+
+  <script src="js/rejistroTrasferencias.js"></script>
+
+</body>
+</html>
