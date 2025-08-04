@@ -96,12 +96,12 @@ function editarUsuario(req, res) {
         return res.status(204).send({ mensaje: "No hay información que editar" });
     }
 
-    const ejercicio = req.body.usuarios[0];
+    const usuario = req.body.usuarios[0];
 
     // Actualizar los campos con los nuevos datos del cuerpo de la petición
-    Object.assign(ejercicio, req.body);
+    Object.assign(usuario, req.body);
 
-    ejercicio.save()
+    usuario.save()
         .then(info => {
             return res.status(200).send({ mensaje: "Usuario actualizado correctamente", info });
         })
@@ -110,6 +110,17 @@ function editarUsuario(req, res) {
         });
 }
 
+async function login (req, res) {
+  const { correo, contraseña } = req.body;
+
+  const usuario = await usuarioModel.findOne({ correo });
+
+  if (!usuario) return res.status(404).json({ msg: 'Usuario no encontrado' });
+
+  if (usuario.contraseña !== contraseña) return res.status(401).json({ msg: 'Contraseña incorrecta' });
+
+  res.json({ msg: 'Login exitoso', usuario });
+};
 
 module.exports = {
     buscarTodo,
@@ -117,5 +128,6 @@ module.exports = {
     buscarUsuario, 
     mostrarUsuario,
     eliminarUsuario,
-    editarUsuario
+    editarUsuario,
+    login
 }

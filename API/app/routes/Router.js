@@ -10,6 +10,7 @@ router.post('/usuarios', usuarioController.guardarUsuario)
 router.get('/usuarios/:key/:value', usuarioController.buscarUsuario, usuarioController.mostrarUsuario)
 router.delete('/usuarios/:key/:value', usuarioController.buscarUsuario, usuarioController.eliminarUsuario)
 router.put('/usuarios/:key/:value', usuarioController.buscarUsuario, usuarioController.editarUsuario)
+router.post('/usuarios/login', usuarioController.login)
 
 //Rutas transferencia controller
 router.post('/transferencias', transferenciaController.guardarTransferencia)
