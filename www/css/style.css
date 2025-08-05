@@ -4,9 +4,31 @@
     Author: BootstrapMade.com
     Author URL: https://bootstrapmade.com
 */
-.password-input {
-    padding-right: 45px; /* Espacio para el icono */
+
+.input-group {
+  position: relative;
+  width: 380px;
 }
+
+.form-control {
+  width: 100%;
+  padding-right: 40px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.toggle-contraseña {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.toggle-contraseña img {
+  display: block;
+}
+
 
 .toggle-password {
     position: absolute;

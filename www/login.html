@@ -13,7 +13,7 @@
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+  
 </head>
 
   <!--banner-->
@@ -29,17 +29,18 @@
               <div class="container">
     <div class="login-container">
       
-      <form>
-  <input type="email" class="form-control" name="email" placeholder="Correo electrónico" required><br>
-
+     <form id="loginForm">
+  <input type="email" class="form-control" name="usuario" id="usuario" placeholder="Correo electrónico" required><br>
   <div class="password-wrapper">
-    <input type="password" class="form-control password-input" id="password" name="password" placeholder="Contraseña" required>
-<span class="toggle-password" id="toggleIcon" onclick="togglePasswordVisibility()">👁</span>
-</div>  <br>
+  </div><br>
+    <div class="input-group">
+    <input type="password" class="form-control password-input" id="contraseña" name="contraseña" placeholder="Contraseña" required>
+    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+  </div><br>
 
-
-<button type="submit" class="btn btn-primary btn-block" onclick="window.location.href='InicioAdmin.html'">Ingresar</button>
+  <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
 </form>
+
 
       <p class="text-center mt-3">
       </p>
@@ -51,6 +52,7 @@
     </div>
   </section>
   <!--/ banner-->
+
   <script src="js/jquery.min.js"></script>
     <script src="js/login.js"></script>
   <script src="js/jquery.easing.min.js"></script>
