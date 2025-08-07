@@ -1,4 +1,6 @@
 const usuarioModel = require('../models/usuariosModel')
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 function buscarTodo(req, res) {
     usuarioModel.find({})
@@ -110,17 +112,54 @@ function editarUsuario(req, res) {
         });
 }
 
-async function login (req, res) {
-  const { correo, contraseña } = req.body;
 
-  const usuario = await usuarioModel.findOne({ correo });
+const login = async (req, res) => {
+    console.log('POST /login', req.body);
+    const { correo, password } = req.body;
 
-  if (!usuario) return res.status(404).json({ msg: 'Usuario no encontrado' });
+    if (!correo || !password) {
+        return res.status(400).json({ msg: 'Todos los campos son obligatorios' });
+    }
 
-  if (usuario.contraseña !== contraseña) return res.status(401).json({ msg: 'Contraseña incorrecta' });
+    try {
+        const usuario = await usuarioModel.findOne({ usuario: correo });
 
-  res.json({ msg: 'Login exitoso', usuario });
+        if (!usuario) {
+            return res.status(404).json({ msg: 'Usuario no encontrado' });
+        }
+
+        if (usuario.contraseña !== password) {
+            return res.status(401).json({ msg: 'Contraseña incorrecta' });
+        }
+
+        const token = jwt.sign(
+            {
+                id: usuario._id,
+                rol: usuario.rol,
+                sucursal: usuario.sucursal
+            },
+            'CLAVE_SECRETA', // cámbiala por una fuerte en .env
+            { expiresIn: '1h' }
+        );
+
+        return res.status(200).json({
+            msg: "Login exitoso",
+            token,
+            usuario: {
+                id: usuario._id,
+                nombre: usuario.nombre,
+                usuario: usuario.usuario,
+                sucursal: usuario.sucursal,
+                rol: usuario.rol
+            }
+        });
+
+    } catch (error) {
+        console.error('Error en login:', error);
+        res.status(500).json({ msg: 'Error interno del servidor' });
+    }
 };
+
 
 module.exports = {
     buscarTodo,
