@@ -19,6 +19,26 @@ function buscarTodo(req, res) {
     })
 }
 
+const buscarUsuariosPorSucursal = async (req, res) => {
+    const sucursal = req.user.sucursal;
+
+    try {
+        const usuarios = await usuarioModel.find({ sucursal: sucursal });
+
+        if (!usuarios.length) {
+            return res.status(204).json({ mensaje: 'No hay usuarios para esta sucursal' });
+        }
+
+        res.status(200).json({
+            mensaje: 'Usuarios encontradas',
+            total: usuarios.length,
+            usuarios
+        });
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al obtener usuarios', error: error.message });
+    }
+};
+
 function guardarUsuario(req, res) {
     console.log(req.body)
 
@@ -39,7 +59,7 @@ async function buscarUsuario(req, res, next) {
             return res.status(400).send({ mensaje: "Parámetros insuficientes para la búsqueda" });
         }
 
-        const consulta = { [key]: value };
+        const consulta = { [req.params.key]: req.params.value };
         const info = await usuarioModel.find(consulta);
 
         // Asegurarse de que req.body exista
@@ -71,20 +91,35 @@ function mostrarUsuario(req, res) {
 }
 
 
-function eliminarUsuario(req, res) {
-    if(req.body.e) return res.status(404).send({
-        mensaje: "Error al buscar la informacion",
-        error: req.body.e})
+async function eliminarUsuario(req, res) {
+  if(req.body.e) return res.status(404).send({
+      mensaje: "Error al buscar la información",
+      error: req.body.e
+  });
 
-    if(!req.body.usuarios) return res.status(204).send({mensaje: "No hay informacion que mostrar"})
-    req.body.usuarios[0].remove()
-    .then(info => {
-        return res.status(200).send({mensaje: "Informacion Eliminada", info})
-    })
-    .catch(e => {
-        return res.status(404).send({mensaje: "Error al eliminar la informacion", error: e.message})
-    })
+  if(!req.body.usuarios || req.body.usuarios.length === 0) 
+    return res.status(204).send({mensaje: "No hay información que mostrar"});
+
+  try {
+    const id = req.body.usuarios[0]._id;
+    const eliminado = await usuarioModel.findByIdAndDelete(id);
+
+    if(!eliminado) {
+      return res.status(404).send({mensaje: "Usuario no encontrado"});
+    }
+
+    return res.status(200).send({
+      mensaje: "Información eliminada",
+      info: eliminado
+    });
+  } catch(e) {
+    return res.status(500).send({
+      mensaje: "Error al eliminar la información",
+      error: e.message
+    });
+  }
 }
+
 
 function editarUsuario(req, res) {
     if (req.body?.e) {
@@ -168,5 +203,6 @@ module.exports = {
     mostrarUsuario,
     eliminarUsuario,
     editarUsuario,
-    login
+    login,
+    buscarUsuariosPorSucursal
 }

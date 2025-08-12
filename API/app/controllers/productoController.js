@@ -69,19 +69,33 @@ function mostrarProducto(req, res) {
 }
 
 
-function eliminarProducto(req, res) {
-    if(req.body.e) return res.status(404).send({
-        mensaje: "Error al buscar la informacion",
-        error: req.body.e})
+async function eliminarProducto(req, res) {
+  if(req.body.e) return res.status(404).send({
+      mensaje: "Error al buscar la información",
+      error: req.body.e
+  });
 
-    if(!req.body.productos) return res.status(204).send({mensaje: "No hay informacion que mostrar"})
-    req.body.productos[0].remove()
-    .then(info => {
-        return res.status(200).send({mensaje: "Informacion Eliminada", info})
-    })
-    .catch(e => {
-        return res.status(404).send({mensaje: "Error al eliminar la informacion", error: e.message})
-    })
+  if(!req.body.productos || req.body.productos.length === 0) 
+    return res.status(204).send({mensaje: "No hay información que mostrar"});
+
+  try {
+    const id = req.body.productos[0]._id;
+    const eliminado = await productoModel.findByIdAndDelete(id);
+
+    if(!eliminado) {
+      return res.status(404).send({mensaje: "Producto no encontrado"});
+    }
+
+    return res.status(200).send({
+      mensaje: "Información eliminada",
+      info: eliminado
+    });
+  } catch(e) {
+    return res.status(500).send({
+      mensaje: "Error al eliminar la información",
+      error: e.message
+    });
+  }
 }
 
 function editarProducto(req, res) {
