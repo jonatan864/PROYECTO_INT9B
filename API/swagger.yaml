@@ -1,0 +1,327 @@
+openapi: 3.0.0
+info:
+  title: API de Gestión de Usuarios, Productos y Transferencias
+  version: 1.0.0
+  description: API para manejar usuarios, productos y transferencias de sucursales.
+servers:
+  - url: http://localhost:3000
+
+paths:
+  # --- USUARIOS ---
+  /usuarios:
+    get:
+      summary: Obtener todos los usuarios
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+    post:
+      summary: Crear un nuevo usuario
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioInput'
+      responses:
+        '201':
+          description: Usuario creado correctamente
+
+  /usuarios/{key}/{value}:
+    get:
+      summary: Obtener usuario por clave y valor
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+    put:
+      summary: Editar usuario por clave y valor
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioInput'
+      responses:
+        '200':
+          description: Usuario actualizado
+
+  /usuarios/{value}:
+    delete:
+      summary: Eliminar usuario por ID o nombre
+      parameters:
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario eliminado correctamente
+
+  /usuarios/login:
+    post:
+      summary: Login de usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario:
+                  type: string
+                contraseña:
+                  type: string
+      responses:
+        '200':
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+
+  /usuarios/filtroSucursal:
+    get:
+      summary: Buscar usuarios por sucursal
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuarios filtrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+
+  # --- PRODUCTOS ---
+  /productos:
+    get:
+      summary: Obtener todos los productos
+      responses:
+        '200':
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producto'
+    post:
+      summary: Crear un nuevo producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producto'
+      responses:
+        '201':
+          description: Producto creado correctamente
+
+  /productos/{key}/{value}:
+    get:
+      summary: Obtener producto por clave y valor
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+    put:
+      summary: Editar producto por clave y valor
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producto'
+      responses:
+        '200':
+          description: Producto actualizado
+
+  /productos/{value}:
+    delete:
+      summary: Eliminar producto por ID o clave
+      parameters:
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado correctamente
+
+  # --- TRANSFERENCIAS ---
+  /transferencias:
+    get:
+      summary: Obtener todas las transferencias
+      responses:
+        '200':
+          description: Lista de transferencias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transferencia'
+    post:
+      summary: Crear nueva transferencia
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transferencia'
+      responses:
+        '201':
+          description: Transferencia creada correctamente
+
+  /transferencias/filtroSucursal:
+    get:
+      summary: Buscar transferencias por sucursal
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de transferencias filtradas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transferencia'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        nombre:
+          type: string
+        usuario:
+          type: string
+        contraseña:
+          type: string
+        sucursal:
+          type: string
+        rol:
+          type: string
+
+    UsuarioInput:
+      type: object
+      properties:
+        nombre:
+          type: string
+        usuario:
+          type: string
+        contraseña:
+          type: string
+        sucursal:
+          type: string
+        rol:
+          type: string
+      required:
+        - nombre
+        - usuario
+        - contraseña
+        - sucursal
+        - rol
+
+    Producto:
+      type: object
+      properties:
+        clave:
+          type: string
+        descripcion:
+          type: string
+        stock:
+          type: number
+        sucursalUbicacion:
+          type: string
+
+    Transferencia:
+      type: object
+      properties:
+        sucursalOrigen:
+          type: string
+        sucursalDestino:
+          type: string
+        productosEnviados:
+          type: string
+        cantidad:
+          type: number
+        usuario:
+          type: string
+        fecha:
+          type: string
+          format: date-time
+        tipo:
+          type: string
