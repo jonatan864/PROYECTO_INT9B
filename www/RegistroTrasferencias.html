@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Empliado
+
+  </title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-icons.css" rel="stylesheet">
+  <link href="css/aos.css" rel="stylesheet">
+  <link href="css/swiper-bundle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/trasferenciasEnpliado.css">
+
+
+  <!-- Main CSS File -->
+  <link href="css/main.css" rel="stylesheet">
+
+  
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <a href="InicioEmpleado.html" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="img/logo farmacia chapatin.png" alt="">
+        <h1 class="sitename">Trasferencia</h1>
+      </a>
+
+      
+
+          <li><a href="InicioEmpleado.html" class="">Inicio</a></li>
+         
+        <i class="mobile-nav-toggle"></i>
+      
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+        <div class="row justify-content-center">
+    
+
+            <div class="container">
+    
+
+    <form class="formulario">
+      <label for="origen">Sucursal de origen</label>
+      <select id="origen">
+        <option>Sucursal elegida</option>
+      </select>
+
+      <label for="destino">Sucursal de destino</label>
+      <select id="destino">
+        <option>Destino</option>
+      </select>
+
+      <details class="producto-dropdown">
+        <summary>✔ Producto</summary>
+        <div class="producto-item">
+          <label><input type="checkbox" checked> label</label>
+          <button class="copiar-btn">📋</button>
+        </div>
+        <div class="producto-item">
+          <label><input type="checkbox" checked> label</label>
+          <button class="copiar-btn">📋</button>
+        </div>
+      </details>
+
+    <div class="cantidad-container">
+  <label for="cantidad">Cantidad</label>
+  <div class="cantidad-controles">
+    <button type="button" id="decrementar">−</button>
+    <input type="number" id="cantidad" value="1" min="1">
+    <button type="button" id="incrementar">+</button>
+  </div>
+</div>
+
+
+      <div class="producto-resumen">
+        
+        <p style="color: black;">Description</p>
+        <span style="color: black;"class="hora">9:41 AM</span>
+      </div>
+
+      <button type="submit" class="confirmar-btn">Confirmar transferencia</button>
+    </form>
+  </div>
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+    
+        
+
+   
+   
+   
+
+
+            
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/validate.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/swiper-bundle.min.js"></script>
+  <script src="js/glightbox.min.js"></script>
+  <script src="js/imagesloaded.pkgd.min.js"></script>
+  <script src="js/isotope.pkgd.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="js/main.js"></script>
+
+    <script src="js/rejistroTrasferencias.js"></script>
+
+
+</body>
+
+</html>
