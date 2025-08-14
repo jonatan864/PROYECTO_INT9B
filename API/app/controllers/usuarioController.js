@@ -39,17 +39,30 @@ const buscarUsuariosPorSucursal = async (req, res) => {
     }
 };
 
-function guardarUsuario(req, res) {
-    console.log(req.body)
+async function guardarUsuario(req, res) {
+    try {
+        // Hashear la contraseña antes de guardar
+        if (req.body.contraseña) {
+            const salt = await bcrypt.genSalt(10);
+            req.body.contraseña = await bcrypt.hash(req.body.contraseña, salt);
+        }
 
-    new usuarioModel(req.body).save()
-    .then(info => {
-        return res.status(200).send({mensaje: "Informacion guardada correctamente", info})
-    })
-    .catch(e => {
-        return res.status(404).send({mensaje: "Error al guardar", error: e.message})
-    })
+        const nuevoUsuario = new usuarioModel(req.body);
+        const info = await nuevoUsuario.save();
+
+        return res.status(200).send({
+            mensaje: "Información guardada correctamente",
+            info
+        });
+
+    } catch (e) {
+        return res.status(404).send({
+            mensaje: "Error al guardar",
+            error: e.message
+        });
+    }
 }
+
 
 async function buscarUsuario(req, res, next) {
     try {
@@ -121,7 +134,7 @@ async function eliminarUsuario(req, res) {
 }
 
 
-function editarUsuario(req, res) {
+async function editarUsuario(req, res) {
     if (req.body?.e) {
         return res.status(500).send({
             mensaje: "Error al buscar la información",
@@ -133,19 +146,31 @@ function editarUsuario(req, res) {
         return res.status(204).send({ mensaje: "No hay información que editar" });
     }
 
-    const usuario = req.body.usuarios[0];
+    try {
+        const usuario = req.body.usuarios[0];
 
-    // Actualizar los campos con los nuevos datos del cuerpo de la petición
-    Object.assign(usuario, req.body);
+        // Si se envía una nueva contraseña, se hashea
+        if (req.body.contraseña) {
+            const salt = await bcrypt.genSalt(10);
+            req.body.contraseña = await bcrypt.hash(req.body.contraseña, salt);
+        }
 
-    usuario.save()
-        .then(info => {
-            return res.status(200).send({ mensaje: "Usuario actualizado correctamente", info });
-        })
-        .catch(e => {
-            return res.status(500).send({ mensaje: "Error al actualizar el usuario", error: e.message });
+        Object.assign(usuario, req.body);
+        const info = await usuario.save();
+
+        return res.status(200).send({
+            mensaje: "Usuario actualizado correctamente",
+            info
         });
+
+    } catch (e) {
+        return res.status(500).send({
+            mensaje: "Error al actualizar el usuario",
+            error: e.message
+        });
+    }
 }
+
 
 
 const login = async (req, res) => {
@@ -163,7 +188,9 @@ const login = async (req, res) => {
             return res.status(404).json({ msg: 'Usuario no encontrado' });
         }
 
-        if (usuario.contraseña !== password) {
+        // Comparar contraseña ingresada con el hash almacenado
+        const passwordValida = await bcrypt.compare(password, usuario.contraseña);
+        if (!passwordValida) {
             return res.status(401).json({ msg: 'Contraseña incorrecta' });
         }
 
@@ -194,6 +221,7 @@ const login = async (req, res) => {
         res.status(500).json({ msg: 'Error interno del servidor' });
     }
 };
+
 
 
 module.exports = {

@@ -8,7 +8,7 @@ const verificarToken = require('../middlewares/verificarToken');
 
 //Rutas usuario controller
 router.get('/usuarios', usuarioController.buscarTodo) //Consulta general
-router.post('/usuarios', usuarioController.guardarUsuario) //Crear usuario
+router.post('/usuarios', verificarToken, usuarioController.guardarUsuario) //Crear usuario
 router.get('/usuarios/:key/:value', usuarioController.buscarUsuario, usuarioController.mostrarUsuario) //Buscar registro por clave y valor
 //router.delete('/usuarios/:key/:value', usuarioController.buscarUsuario, usuarioController.eliminarUsuario) //Eliminar registro por clave y valor
 //RUTA NUEVA: Elimina por nombre (clave fija)
